@@ -2,17 +2,14 @@ package com.devaleh.apisecurity.controllers;
 
 import com.devaleh.apisecurity.dtos.ProductDto;
 import com.devaleh.apisecurity.entities.Product;
-import com.devaleh.apisecurity.repositories.ProductRepository;
 import com.devaleh.apisecurity.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -37,7 +34,22 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> getOneProduct(@PathVariable UUID id) {
-        Product product = service.findById(id);
+        var product = service.findById(id);
         return ResponseEntity.ok().body(product);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable UUID id,
+                                                 @RequestBody @Valid ProductDto productDto) {
+        var product = service.findById(id);
+        BeanUtils.copyProperties(productDto, product);
+        return ResponseEntity.ok().body(service.save(product));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
