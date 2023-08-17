@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -28,13 +31,21 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProduct() {
-        return ResponseEntity.ok().body(service.findAll());
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> productsList = service.findAll();
+        if (!productsList.isEmpty()) {
+            for (Product product : productsList) {
+                UUID id = product.getIdProduct();
+                product.add(linkTo(methodOn(ProductController.class).getOneProduct(id)).withSelfRel());
+            }
+        }
+        return ResponseEntity.ok().body(productsList);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> getOneProduct(@PathVariable UUID id) {
         var product = service.findById(id);
+        product.add(linkTo(methodOn(ProductController.class).getAllProducts()).withRel("Products List"));
         return ResponseEntity.ok().body(product);
     }
 
