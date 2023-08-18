@@ -4,6 +4,7 @@ import com.devaleh.apisecurity.entities.Product;
 import com.devaleh.apisecurity.repositories.ProductRepository;
 import com.devaleh.apisecurity.services.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,8 @@ public class ProductService {
     }
 
     public List<Product> findAll() {
-        return repository.findAll();
+        Sort sort = Sort.by("price").ascending();
+        return repository.findAll(sort);
     }
 
     public Product findById(UUID id) {
