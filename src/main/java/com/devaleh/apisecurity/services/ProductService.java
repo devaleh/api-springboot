@@ -2,7 +2,7 @@ package com.devaleh.apisecurity.services;
 
 import com.devaleh.apisecurity.entities.Product;
 import com.devaleh.apisecurity.repositories.ProductRepository;
-import com.devaleh.apisecurity.services.exceptions.NotFoundException;
+import com.devaleh.apisecurity.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ProductService {
 
     public Product findById(UUID id) {
         Optional<Product> product = repository.findById(id);
-        return product.orElseThrow(() -> new NotFoundException(id));
+        return product.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public void delete(UUID id) {

@@ -6,15 +6,15 @@ import com.devaleh.apisecurity.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -27,7 +27,7 @@ public class ProductController {
     public ResponseEntity<Product> saveProduct(@RequestBody @Valid ProductDto productDto) {
         var product = new Product();
         BeanUtils.copyProperties(productDto, product);
-        return ResponseEntity.ok().body(service.save(product));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
     }
 
     @GetMapping
@@ -60,6 +60,6 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable UUID id) {
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
