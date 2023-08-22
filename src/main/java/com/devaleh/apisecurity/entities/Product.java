@@ -14,7 +14,7 @@ public class Product extends RepresentationModel<Product> implements Serializabl
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idProduct;
+    private UUID productId;
     private String name;
     private Double price;
 
@@ -22,17 +22,17 @@ public class Product extends RepresentationModel<Product> implements Serializabl
     }
 
     public Product(UUID idProduct, String name, Double price) {
-        this.idProduct = idProduct;
+        this.productId = idProduct;
         this.name = name;
         this.price = price;
     }
 
     public UUID getIdProduct() {
-        return idProduct;
+        return productId;
     }
 
     public void setIdProduct(UUID idProduct) {
-        this.idProduct = idProduct;
+        this.productId = idProduct;
     }
 
     public String getName() {
@@ -56,11 +56,11 @@ public class Product extends RepresentationModel<Product> implements Serializabl
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(idProduct, product.idProduct) && Objects.equals(name, product.name) && Objects.equals(price, product.price);
+        return Objects.equals(productId, product.productId) && Objects.equals(name, product.name) && Objects.equals(price, product.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProduct, name, price);
+        return Objects.hash(productId, name, price);
     }
 }
