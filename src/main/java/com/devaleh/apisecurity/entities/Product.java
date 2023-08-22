@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_PRODUCTS")
+@Table(name = "TB_PRODUCT")
 public class Product extends RepresentationModel<Product> implements Serializable {
     private static final long serialVersionUID = 1L;
 
