@@ -3,6 +3,7 @@ package com.devaleh.apisecurity.entities;
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "TB_PRODUCT")
 public class Product extends RepresentationModel<Product> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

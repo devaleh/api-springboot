@@ -1,9 +1,11 @@
 package com.devaleh.apisecurity.entities;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "TB_USER")
 
-public class UserModel implements UserDetails, Serializable {
+public class UserModel extends RepresentationModel<UserModel> implements UserDetails, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
