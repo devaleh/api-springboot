@@ -1,7 +1,7 @@
 package com.devaleh.apisecurity.services;
 
 import com.devaleh.apisecurity.entities.UserModel;
-import com.devaleh.apisecurity.repositories.UserRepository;
+import com.devaleh.apisecurity.repositories.UserModelRepository;
 import com.devaleh.apisecurity.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UserModelService {
 
     @Autowired
-    private UserRepository repository;
+    private UserModelRepository repository;
 
     public UserModel save(UserModel user) {
         return repository.save(user);

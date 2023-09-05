@@ -1,7 +1,7 @@
 package com.devaleh.apisecurity.services;
 
 import com.devaleh.apisecurity.entities.UserModel;
-import com.devaleh.apisecurity.repositories.UserRepository;
+import com.devaleh.apisecurity.repositories.UserModelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserRepository repository;
+    UserModelRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

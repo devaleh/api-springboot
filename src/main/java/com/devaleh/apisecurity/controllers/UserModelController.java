@@ -1,5 +1,6 @@
 package com.devaleh.apisecurity.controllers;
 
+import com.devaleh.apisecurity.dtos.UserModelDto;
 import com.devaleh.apisecurity.entities.UserModel;
 import com.devaleh.apisecurity.services.UserModelService;
 import jakarta.validation.Valid;
@@ -17,13 +18,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserController {
+public class UserModelController {
 
     @Autowired
     private UserModelService service;
 
     @PostMapping
-    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserModel userModel) {
+    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserModelDto userModelDto) {
+        var userModel = new UserModel();
+        BeanUtils.copyProperties(userModelDto, userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userModel));
     }
 
@@ -33,7 +36,7 @@ public class UserController {
         if (!userList.isEmpty()) {
             for (UserModel user : userList) {
                 UUID id = user.getUserId();
-                user.add(linkTo(methodOn(UserController.class).getOneUser(id)).withSelfRel());
+                user.add(linkTo(methodOn(UserModelController.class).getOneUser(id)).withSelfRel());
             }
         }
         return ResponseEntity.ok().body(userList);
@@ -42,16 +45,16 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserModel> getOneUser(@PathVariable UUID id) {
         var user = service.findById(id);
-        user.add(linkTo(methodOn(UserController.class).getAllUsers()).withRel("Users List"));
+        user.add(linkTo(methodOn(UserModelController.class).getAllUsers()).withRel("Users List"));
         return ResponseEntity.ok().body(user);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserModel> updateUser(@PathVariable UUID id,
-                                                 @RequestBody @Valid UserModel user) {
-        var user0 = service.findById(id);
-        BeanUtils.copyProperties(user, user0);
-        return ResponseEntity.ok().body(service.save(user));
+                                                 @RequestBody @Valid UserModelDto userModelDto) {
+        var userModel = service.findById(id);
+        BeanUtils.copyProperties(userModelDto, userModel);
+        return ResponseEntity.ok().body(service.save(userModel));
     }
 
     @DeleteMapping(value = "/{id}")
